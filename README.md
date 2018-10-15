@@ -1,0 +1,2 @@
+# plataformTranslate
+Translate porpouses.
