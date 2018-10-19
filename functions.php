@@ -18,7 +18,6 @@ function conecta_banco_mangos()
     return $PDO;
 }
  
- 
 // Recebe uma string e a criptografa utilizando a tecnologia sha1.
 function criar_hash($str)
 {
@@ -39,6 +38,27 @@ function usuarioLogado()
 	
 	// Senão, retorne que a função é verdadeira.
     return true;
+}
+
+// Recebe o nível de permissão, e transforma-o em texto.
+function nivelPermissao($permissao)
+{
+	$cargo = "Sem cargo";
+
+	switch ($permissao) {
+		case 0:
+			$cargo = "Tradutor";
+			break;
+		case 1:
+			$cargo = "Corretor";
+			break;
+		case 2:
+			$cargo = "Administrador";
+			break;
+	}
+
+	return $cargo;
+
 }
 
 

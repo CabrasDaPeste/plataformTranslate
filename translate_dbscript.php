@@ -17,13 +17,16 @@ require 'check.php';
   </head>
   <body style="padding:20px;">
 	
-	<h1>Olá, <?php echo $_SESSION['username']; ?>. <small style="font-size:50%;"><a href="logout.php">Sair</a></small></h1>
-	<h3>Existem <?php $dbscriptTraduzidas = dbscriptTraduzidas(); echo (dbscriptQueFaltamTraduzir() - $dbscriptTraduzidas); ?> missões para traduzir.</h3>
-	<br>
+	<h1>Olá, <?php echo $_SESSION['username']; ?>. <small style="font-size:50%;"><a href="index.php">Início</a></small> <small style="font-size:50%;"><a href="logout.php">Sair</a></small></h1>
+	<h3>Existem <?php $dbscriptTraduzidas = dbscriptTraduzidas(); echo (dbscriptQueFaltamTraduzir() - $dbscriptTraduzidas); ?> frases para traduzir.</h3>
+	<hr>
+	<?php 
+		// Hackfix to javascript link on button onClick
+		$hackfix = "'adjust_dbscript.php'";
+		// Se a permissão do usuário for maior que tradutor (Corretor ou administrador), então mostra o botão de corrigir.
+		if($_SESSION['access'] > 0) { echo '<button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.location.href='.$hackfix.'">Ir para frases já traduzidas!</button><br>'; }
+	?>
 	<input class="form-control" id="myInput" type="text" placeholder="Procurar...">
-		<br>
-		<button type="button" class="btn btn-primary btn-lg btn-block">Ir para frases já traduzidas!</button>
-		<br>
 		<table id="basic-datatable" class="table table-striped table-bordered">
 			<thead>
 				<tr>

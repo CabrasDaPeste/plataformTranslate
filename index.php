@@ -17,18 +17,17 @@ require 'check.php';
   </head>
   <body style="padding:20px;">
 	<div>
-		<h1>Olá, <?php echo $_SESSION['username']; ?> <?php echo $_SESSION['access']; ?>!</h1>
-		<h3>Existem <?php $missoesTraduzidas = missoesTraduzidas(); echo (missoesQueFaltamTraduzir() - $missoesTraduzidas); ?> missões para traduzir.</h3>
-		<h5>E <?php echo missoesTraduzidas(); ?> missões já traduzidas.</h5>
+	<h1>Olá, <?php echo $_SESSION['username']; ?>. <small style="font-size:50%;"><a href="index.php">Início</a></small> <small style="font-size:50%;"><a href="logout.php">Sair</a></small></h1>
+		<h2>Seu cargo é:  <?php echo nivelPermissao($_SESSION['access']); ?>.</h2>
+		<hr>
+		<button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.location.href='translate_dbscript.php'">Ir traduzir frases!</button>
+		<button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.location.href='translate_gossip.php'" disabled>Ir traduzir gossips! (Indisponível)</button>
+		<button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.location.href='translate_quest.php'" disabled>Ir traduzir missões! (Indisponível)</button>
 		<br>
-		<h5>Você traduziu <?php echo missoesTraduzidasUsuario($_SESSION['id']); ?> missões.</h5>
-		<h5>Você corrigiu <?php echo missoesCorrigidasUsuario($_SESSION['id']); ?> missões.</h5>
+		<h5>Missões: <br><?php echo missoesTraduzidasUsuario($_SESSION['id']); ?> traduzidas.<br>00 aprovadas<br><?php echo missoesCorrigidasUsuario($_SESSION['id']); ?> corrigidas.</h5>
+		<br>
+		<h5>Frases: <br>00 traduzidas.<br>00 aprovadas<br>00 corrigidas.</h5>
 	</div>
-	
-	<input class="form-control" id="myInput" type="text" placeholder="Search..">
-		<br>
-		<button type="button" class="btn btn-primary btn-lg btn-block">Ir para missões já traduzidas!</button>
-		<br>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
