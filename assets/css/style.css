@@ -1,0 +1,19 @@
+body {
+	background-color: #dddddd;
+}
+
+.logo {
+	width: 151px;
+	height: 151px;
+	background-image: url('../img/logo.png');
+
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 90vh;
+}
