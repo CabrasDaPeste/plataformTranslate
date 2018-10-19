@@ -29,20 +29,6 @@ require 'check.php';
 		<br>
 		<button type="button" class="btn btn-primary btn-lg btn-block">Ir para missões já traduzidas!</button>
 		<br>
-		<table id="basic-datatable" class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Nome</th>
-					<th>Área/Tipo</th>
-					<th>Alterar?</th>
-				</tr>
-			</thead>			
-			<tbody id="myTable">
-				<?php echo montarTabelaParaTraduzir($_SESSION['access']); ?>
-			</tbody>
-
-	</table>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
