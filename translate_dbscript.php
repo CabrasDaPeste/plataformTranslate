@@ -27,6 +27,7 @@ require 'check.php';
 		if($_SESSION['access'] > 0) { echo '<button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.location.href='.$hackfix.'">Ir para frases já traduzidas!</button><br>'; }
 	?>
 	<input class="form-control" id="myInput" type="text" placeholder="Procurar...">
+	<br>
 		<table id="basic-datatable" class="table table-striped table-bordered">
 			<thead>
 				<tr>

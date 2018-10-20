@@ -28,7 +28,7 @@ require 'check.php';
 		?>
 		
 		<div class="form-group">
-			<label for="exampleFormControlInput1"><strong><?php echo getTradFrase($_GET['entry']); ?></strong></label>
+			<label for="exampleFormControlInput1"><strong><?php echo getDbScriptFraseMangos($_GET['entry']); ?></strong></label>
 			<input type="hidden" class="form-control" name="entry" id="exampleFormControlInput1" value="<?php echo $_GET['entry']; ?>">
 			<input type="input" class="form-control" name="frase" id="exampleFormControlInput1" placeholder="Traduza e digite a frase em português aqui.">
 			<br>

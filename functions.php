@@ -259,6 +259,90 @@ function montarTabelaDbScript()
 	
 }
 
+
+function montarTabelaDbScriptAdjust()
+{
+	$PDO = conecta_banco_cabrasdapeste();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "SELECT * FROM cdp_trad_dbscript ORDER BY valid ASC";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+
+	// Executa a consulta no banco de dados
+	$stmm->execute();
+	
+	$frase = $stmm->fetchAll(PDO::FETCH_ASSOC);
+	
+	
+	
+	foreach($frase as $frases) {
+		switch($frases["valid"]) {
+			case 0:
+				$cor = 'warning">Corrigir!';
+				break;
+			case 1:
+				$cor = 'dark" disabled>Corrigida';
+				break;
+		}
+
+		echo '<tr>';
+		echo '<td>'.$frases["frase"].'</td>';
+		echo '<td>'.getDbScriptFrase($frases["frase"]).'</td>';
+		echo '<td>'.getDbScriptComment($frases["frase"]).'</td>';
+		echo '<td>'.pegarNome($frases["tradutorId"]).'</td>';
+		echo '<td>'.pegarNome($frases["corretorId"]).'</td>';
+		echo '<td><form action="adjust_dbscript_type.php" method="GET"><button type="submit" name="entry" value="'.$frases["frase"].'" class="btn btn-'.$cor.'</button></form></td>';
+		echo '</tr>';		
+	}
+	
+}
+
+function pegarNome($id) {
+
+	// Instancia o objeto da conexão mysql
+	$PDO = conecta_banco_cabrasdapeste();
+	// Salva a query sql em uma string
+	$sql = "SELECT id, username FROM cdp_trad_users WHERE id = :id";
+	// Prepara a query sql dentro da conexão de banco de dados, e chama-a de stmm
+	$stmm = $PDO->prepare($sql);
+	// Substitui o valor :id dentro da query sql para evitar SQL Injection
+	$stmm->bindParam(':id', $id);
+	// Executa a query
+	$stmm->execute();
+	// Puxa todos os itens do banco de dados e salva na array puxando.
+	$puxando = $stmm->fetch(PDO::FETCH_ASSOC);
+
+	// Se o número de dados for puxado do banco de dados for igual a zero:
+	if($stmm->rowCount() == 0) {
+		// Usuário não existe, e salva na variavel nome ninguém.
+		$nome = "Ninguém";
+	// Se não
+	} else {
+		// salva na variavel nome do usuário no banco.
+		$nome = $puxando['username'];
+	}
+
+	// Retorna para quem pediu a função o nome.
+	return $nome;
+}
+
+// Função que retorna quantidade de frases para corrigir
+function missoesParaCorrigir()
+{
+	$PDO = conecta_banco_cabrasdapeste();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "SELECT id FROM cdp_trad_dbscript WHERE valid = 0";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+
+	// Executa a consulta no banco de dados
+	$stmm->execute();
+	
+	return $stmm->rowCount();
+}
+
 function checarTraduzidasDbScript($entry)
 {
 	$PDO = conecta_banco_cabrasdapeste();
@@ -279,7 +363,7 @@ function checarTraduzidasDbScript($entry)
 	return $quest['valid'];
 }
 
-function getTradFrase($entry)
+function getDbScriptFraseMangos($entry)
 {
 	$PDO = conecta_banco_mangos();
 	
@@ -301,6 +385,54 @@ function getTradFrase($entry)
 	}
 	
 	return $quest['content_default'];
+}
+
+function getDbScriptFrase($entry)
+{
+	$PDO = conecta_banco_cabrasdapeste();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "SELECT content_default FROM cdp_trad_textdbscript WHERE id = :entry";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+	
+	// Coloca o id dentro da string. Desta forma evita SQL Injection.
+	$stmm->bindParam(':entry', $entry);
+
+	// Executa a consulta no banco de dados
+	$stmm->execute();
+	
+	$quest = $stmm->fetch(PDO::FETCH_ASSOC);
+	
+	if ($quest['content_default'] == "") {
+		$quest['content_default'] = "Frase incorreta";
+	}
+	
+	return $quest['content_default'];
+}
+
+function getDbScriptComment($entry)
+{
+	$PDO = conecta_banco_mangos();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "SELECT content_default FROM cdp_trad_textdbscript WHERE id = :entry";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+	
+	// Coloca o id dentro da string. Desta forma evita SQL Injection.
+	$stmm->bindParam(':entry', $entry);
+
+	// Executa a consulta no banco de dados
+	$stmm->execute();
+	
+	$quest = $stmm->fetch(PDO::FETCH_ASSOC);
+	
+	if ($quest['comment'] == "") {
+		$quest['comment'] = "Sem comentário";
+	}
+	
+	return $quest['comment'];
 }
 
 function checkTranslation() {
@@ -384,6 +516,7 @@ function sendTranslationCabrasDaPesteText() {
 	}
 }
 
+
 function sendTranslationMangos() {
 	$PDO = conecta_banco_mangos();
 	
@@ -429,4 +562,62 @@ function dbscriptTraduzidas()
 	$stmm->execute();
 	
 	return $stmm->rowCount();
+}
+
+
+function adjustTranslationCabrasDaPeste() {
+	$PDO = conecta_banco_cabrasdapeste();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "UPDATE cdp_trad_dbscript SET corretorId = :corretorId, valid = 1 WHERE frase = :frase";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+	
+	$stmm->bindParam(':corretorId', $_SESSION['id']);
+	$stmm->bindParam(':frase', $_POST["entry"]);
+
+	// Executa a consulta no banco de dados	
+	$stmm->execute();
+}
+
+function adjustTranslationCabrasDaPesteText() {
+	$PDO = conecta_banco_cabrasdapeste();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "UPDATE cdp_trad_textdbscript SET content_default = :content_default WHERE id = :id";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+	
+	// Coloca o id dentro da string. Desta forma evita SQL Injection.
+	$stmm->bindParam(':id', $_POST["entry"]);
+	$stmm->bindParam(':content_default', $_POST["frase"]);
+
+	// Executa a consulta no banco de dados
+	$stmm->execute();
+}
+
+function adjustTranslationCabrasDaPesteTextMangos() {
+	$PDO = conecta_banco_mangos();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "UPDATE dbscript_string SET content_default = :content_default WHERE entry = :id";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+	
+	// Coloca o id dentro da string. Desta forma evita SQL Injection.
+	$stmm->bindParam(':id', $_POST["entry"]);
+	$stmm->bindParam(':content_default', $_POST["frase"]);
+
+	// Executa a consulta no banco de dados
+	$stmm->execute();
+}
+
+function createSqlFileDbScript() {
+	$fp = fopen("dbscript_string/".$_POST['entry'].".sql", "a");
+ 
+	// Escreve "exemplo de escrita" no bloco1.txt
+	$escreve = fwrite($fp, 'UPDATE dbscript_string SET content_default = "'.$_POST["frase"].'" WHERE entry = "'.$_POST["entry"].'";');
+	
+	// Fecha o arquivo
+	fclose($fp);
 }
