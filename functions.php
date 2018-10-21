@@ -288,8 +288,9 @@ function montarTabelaDbScriptAdjust()
 
 		echo '<tr>';
 		echo '<td>'.$frases["frase"].'</td>';
-		echo '<td>'.getDbScriptFrase($frases["frase"]).'</td>';
-		echo '<td>'.getDbScriptComment($frases["frase"]).'</td>';
+		echo '<td></td>';
+		echo '<td></td>';
+		
 		echo '<td>'.pegarNome($frases["tradutorId"]).'</td>';
 		echo '<td>'.pegarNome($frases["corretorId"]).'</td>';
 		echo '<td><form action="adjust_dbscript_type.php" method="GET"><button type="submit" name="entry" value="'.$frases["frase"].'" class="btn btn-'.$cor.'</button></form></td>';
