@@ -337,9 +337,12 @@ function frasesParaCorrigir()
 	$PDO = conecta_banco_cabrasdapeste();
 	
 	// Cria a string para selecionar o usuário baseado no login e senha digitado
-	$sql = "SELECT id FROM cdp_trad_dbscript WHERE valid = 0";
+	$sql = "SELECT id FROM cdp_trad_dbscript WHERE valid = :value";
 	// Prepara a string dentro da instância do PDO.
 	$stmm = $PDO->prepare($sql);
+
+	// Bind param para evitar sql injection
+	$stmm->bindValue(':value', 0, PDO::PARAM_INT);
 
 	// Executa a consulta no banco de dados
 	$stmm->execute();
@@ -573,11 +576,12 @@ function adjustTranslationCabrasDaPeste() {
 	$PDO = conecta_banco_cabrasdapeste();
 	
 	// Cria a string para selecionar o usuário baseado no login e senha digitado
-	$sql = "UPDATE cdp_trad_dbscript SET corretorId = :corretorId, valid = 1 WHERE frase = :frase";
+	$sql = "UPDATE cdp_trad_dbscript SET corretorId = :corretorId, valid = :validValue WHERE frase = :frase";
 	// Prepara a string dentro da instância do PDO.
 	$stmm = $PDO->prepare($sql);
 	
 	$stmm->bindParam(':corretorId', $_SESSION['id']);
+	$stmm->bindValue(':validValue', 1, PDO::PARAM_INT);
 	$stmm->bindParam(':frase', $_POST["entry"]);
 
 	// Executa a consulta no banco de dados	
