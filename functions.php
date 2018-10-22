@@ -265,7 +265,7 @@ function montarTabelaDbScriptAdjust()
 	$PDO = conecta_banco_cabrasdapeste();
 	
 	// Cria a string para selecionar o usuário baseado no login e senha digitado
-	$sql = "SELECT * FROM cdp_trad_dbscript ORDER BY valid ASC";
+	$sql = "SELECT valid, frase, tradutorId, corretorId FROM cdp_trad_dbscript ORDER BY valid ASC";
 	// Prepara a string dentro da instância do PDO.
 	$stmm = $PDO->prepare($sql);
 
@@ -288,10 +288,14 @@ function montarTabelaDbScriptAdjust()
 
 		echo '<tr>';
 		echo '<td>'.$frases["frase"].'</td>';
-		echo '<td>'.getDbScriptFrase($frases["frase"]).'</td>';
-		echo '<td>'.getDbScriptComment($frases["frase"]).'</td>';
-		echo '<td>'.pegarNome($frases["tradutorId"]).'</td>';
-		echo '<td>'.pegarNome($frases["corretorId"]).'</td>';
+		//echo '<td>'.getDbScriptFrase($frases["frase"]).'</td>';
+		//echo '<td>'.getDbScriptComment($frases["frase"]).'</td>';
+		//echo '<td>'.pegarNome($frases["tradutorId"]).'</td>';
+		//echo '<td>'.pegarNome($frases["corretorId"]).'</td>';
+		echo '<td></td>';
+		echo '<td></td>';
+		echo '<td></td>';
+		echo '<td></td>';
 		echo '<td><form action="adjust_dbscript_type.php" method="GET"><button type="submit" name="entry" value="'.$frases["frase"].'" class="btn btn-'.$cor.'</button></form></td>';
 		echo '</tr>';		
 	}
@@ -328,7 +332,7 @@ function pegarNome($id) {
 }
 
 // Função que retorna quantidade de frases para corrigir
-function missoesParaCorrigir()
+function frasesParaCorrigir()
 {
 	$PDO = conecta_banco_cabrasdapeste();
 	

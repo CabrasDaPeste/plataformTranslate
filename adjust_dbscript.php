@@ -18,7 +18,7 @@ require 'check.php';
   <body style="padding:20px;">
 	
 	<h1>Olá, <?php echo $_SESSION['username']; ?>. <small style="font-size:50%;"><a href="index.php">Início</a></small> <small style="font-size:50%;"><a href="logout.php">Sair</a></small></h1>
-	<h3>Existem <?php echo missoesParaCorrigir() ?> frases para corrigir.</h3>
+	<h3>Existem <?php echo frasesParaCorrigir() ?> frases para corrigir.</h3>
 	<hr>
 	<?php 
 		// Hackfix to javascript link on button onClick
