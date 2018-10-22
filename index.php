@@ -24,9 +24,9 @@ require 'check.php';
 		<button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.location.href='translate_gossip.php'" disabled>Ir traduzir gossips! (Indisponível)</button>
 		<button type="button" class="btn btn-primary btn-lg btn-block" onclick="window.location.href='translate_quest.php'" disabled>Ir traduzir missões! (Indisponível)</button>
 		<br>
-		<h5>Missões: <br><?php echo missoesTraduzidasUsuario($_SESSION['id']); ?> traduzidas.<br>00 aprovadas<br><?php echo missoesCorrigidasUsuario($_SESSION['id']); ?> corrigidas.</h5>
+		<h5>Missões: <br><?php echo missoesTraduzidasUsuario($_SESSION['id']); ?> traduzidas.<br><?php echo missoesAprovadasUsuario($_SESSION['id']); ?> aprovadas<br><?php echo missoesCorrigidasUsuario($_SESSION['id']); ?> corrigidas.</h5>
 		<br>
-		<h5>Frases: <br>00 traduzidas.<br>00 aprovadas<br>00 corrigidas.</h5>
+		<h5>Frases: <br><?php echo dbscriptTraduzidasUsuario($_SESSION['id']); ?> traduzidas.<br><?php echo dbscriptAprovadasUsuario($_SESSION['id']); ?> aprovadas<br><?php echo dbscriptCorrigidasUsuario($_SESSION['id']); ?> corrigidas.</h5>
 	</div>
 
     <!-- Optional JavaScript -->

@@ -112,12 +112,86 @@ function missoesTraduzidasUsuario($id)
 	return $stmm->rowCount();
 }
 
+function missoesAprovadasUsuario($id)
+{
+	$PDO = conecta_banco_cabrasdapeste();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "SELECT id FROM cdp_trad_quests WHERE tradutorId = :id AND valid > :valid";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+	
+	// Coloca o id dentro da string. Desta forma evita SQL Injection.
+	$stmm->bindParam(':id', $id);
+	$stmm->bindValue(':valid', 0, PDO::PARAM_INT);
+
+	// Executa a consulta no banco de dados
+	$stmm->execute();
+	
+	return $stmm->rowCount();
+}
+
 function missoesCorrigidasUsuario($id)
 {
 	$PDO = conecta_banco_cabrasdapeste();
 	
 	// Cria a string para selecionar o usuário baseado no login e senha digitado
 	$sql = "SELECT id FROM cdp_trad_quests WHERE corretorId = :id";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+	
+	// Coloca o id dentro da string. Desta forma evita SQL Injection.
+	$stmm->bindParam(':id', $id);
+
+	// Executa a consulta no banco de dados
+	$stmm->execute();
+	
+	return $stmm->rowCount();
+}
+
+function dbscriptTraduzidasUsuario($id)
+{
+	$PDO = conecta_banco_cabrasdapeste();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "SELECT id FROM cdp_trad_dbscript WHERE tradutorId = :id";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+	
+	// Coloca o id dentro da string. Desta forma evita SQL Injection.
+	$stmm->bindParam(':id', $id);
+
+	// Executa a consulta no banco de dados
+	$stmm->execute();
+	
+	return $stmm->rowCount();
+}
+
+function dbscriptAprovadasUsuario($id)
+{
+	$PDO = conecta_banco_cabrasdapeste();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "SELECT id FROM cdp_trad_dbscript WHERE tradutorId = :id AND valid > :valid";
+	// Prepara a string dentro da instância do PDO.
+	$stmm = $PDO->prepare($sql);
+	
+	// Coloca o id dentro da string. Desta forma evita SQL Injection.
+	$stmm->bindParam(':id', $id);
+	$stmm->bindValue(':valid', 0, PDO::PARAM_INT);
+
+	// Executa a consulta no banco de dados
+	$stmm->execute();
+	
+	return $stmm->rowCount();
+}
+
+function dbscriptCorrigidasUsuario($id)
+{
+	$PDO = conecta_banco_cabrasdapeste();
+	
+	// Cria a string para selecionar o usuário baseado no login e senha digitado
+	$sql = "SELECT id FROM cdp_trad_dbscript WHERE corretorId = :id";
 	// Prepara a string dentro da instância do PDO.
 	$stmm = $PDO->prepare($sql);
 	
