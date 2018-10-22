@@ -339,7 +339,7 @@ function missoesParaCorrigir()
 	$stmm = $PDO->prepare($sql);
 
 	// Bind param para evitar sql injection
-	$stmm->bindParam(':value', 0);
+	$stmm->bindValue(':value', 0, PDO::PARAM_INT);
 
 	// Executa a consulta no banco de dados
 	$stmm->execute();
@@ -578,7 +578,7 @@ function adjustTranslationCabrasDaPeste() {
 	$stmm = $PDO->prepare($sql);
 	
 	$stmm->bindParam(':corretorId', $_SESSION['id']);
-	$stmm->bindParam(':validValue', 1);
+	$stmm->bindValue(':validValue', 1, PDO::PARAM_INT);
 	$stmm->bindParam(':frase', $_POST["entry"]);
 
 	// Executa a consulta no banco de dados	
